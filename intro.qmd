@@ -1,0 +1,787 @@
+# Prioridades do Projeto Clinícas de Acesso a Direitos
+
+O serviço público deve agir baseado, entre outros aspectos, em critérios objetivos e transparentes. Nesse sentido, este relatório visa analisar indicadores e ordenar os municípios prioritários para implementação do projeto Clínicas de Acesso a Direitos.
+
+Especificamente, este trabalho também objetiva:
+
+-   Definir relações e indicadores associativos;
+-   Agrupar municípios com características semelhantes;
+-   Relacionar índices e indicadores;
+-   Representar graficamente os grupos e as relações entre eles.
+
+A criação dos índices e indicadores está baseada em bases de dados públicas de acesso irrestrito, sendo:
+
+-   Base de dados do Sistema Nacional de Informações Penais – Sisdepen;
+-   Tabelas de municípios com número de mortes violentas e campis de universidades federais;
+-   Base de dados de georreferenciamento de unidades prisionais;
+-   Tabela IPEA com ranking dos municípios do Programa Nacional de Segurança Pública com Cidadania - Pronasci;
+-   Tabela da Diretoria de Alternativas Penais - Dicap -  com as informações das cidades que possuem Centros
+Integrados de Alternativas Penais - Ciap's.
+
+Os métodos matemáticos utilizados buscam traçar o perfil dos municípios de acordo com a importância de cada indicador/índice com ponderação e agrupamento de características semelhantes, utilizando:
+
+-   Análise descritiva e inferencial;
+-   Análise regressiva;
+-   Análise de correlação;
+-   Método *k-means* para agrupamento;
+-   Análise gráfica e tabular.
+
+## Metodologia
+
+Os critérios de construção da metodologia evidencia a importância de alguns indicadores básicos advindos de áreas distintas, tais como, métricas sociais, demográficas, educacionais e prisionais.
+
+O filtro inicial dentre os municípios brasileiros possui os seguintes critérios:
+
+1.  O município deve constar na lista de participantes do Pronasci escolhidos com base em indicadores de violência urbana analisados e classificados pelo Instituto de Pesquisa Econômica Aplicada – IPEA;
+
+2.  O município deve possuir unidades prisionais em seu território ou, no caso de capitais, possuir estabelecimentos penitenciários em sua região metropolitana;
+
+3.  O município deve ter campus de universidade federal.
+
+Após a aplicação dos critérios supracitados, restaram 74 cidades aptas à ordenação de prioridades.
+
+O próximo passo é relativo à escolha dos indicadores pelos gestores do projeto para composição da nota geral e suas respectivas ponderações que caracterizam a importância de cada índice na formação da lista ordenada. Nesse sentido, foram escolhidos os seguintes:
+
+-   **Indicador 1: Quantidade de habitantes do município (peso 4);**
+-   Indicador 2: Quantidade de homicídios dolosos (peso 3);
+-   Indicador 3: Taxa de homicídios dolosos para cada 100.000 habitantes (peso 2);
+-   **Indicador 4: População prisional interna e externa aos estabelecimentos penitenciários (peso 3);**
+-   **Indicador 5: Taxa de pessoas em custódia para cada 100.000 habitantes considerando a população da Unidade Federativa (peso 2);**
+-   Indicador 6: Quantidade de pessoas presas sem condenação (peso 4);
+-   **Indicador 7: Taxa de pessoas presas sem condenação em relação à população prisional do município (peso 2);**
+-   Indicador 8: Quantidade de mortes violentas no município Quantidade de pessoas presas sem condenação (peso 4);
+-   Indicador 9: Taxa de mortes violentas para cada 100.000 pessoas no município (peso 2);
+-   Indicador 10: Quantidade de defensores públicos na unidade federativa (peso 0.25);
+-   Indicador 11: Taxa de defensores públicos para cada 100.000 habitantes na unidade federativa (peso 0.5);
+-   Indicador 12: Existência de Centro de Alternativas Penais - Ciap.
+
+Definição dos parâmetros de ponderação de cada indicador foram definidos a partir dos seguintes critérios:
+
+1.  Maior peso para indicadores de quantidade absoluta;
+2.  Menor peso para indicadores de quantidade relativa;
+3.  Pesos inversamente proporcionais para indicadores da quantidade de defensores públicos;
+4.  Somado um ponto ao município que contém Ciap.
+
+Dessa forma, a nota geral é dada pela seguinte equação:
+
+$$
+Nota \ geral = \dfrac{\sum_{i=1}^{12} (Indicador \ i \ \times Peso \ i) }{\sum_{i=1}^{12}Peso \ i}
+$$
+
+A próxima etapa metodológica consiste na separação dos municípios em grupos (clusters) com indicadores 
+característicos semelhantes. Essa fase foi elaborada utilizando o método *k-means*. Os indicadores 1, 4, 5, 7 e 
+a nota geral foram escolhidos como variáveis para definição dos clusters.
+
+Por fim, gera-se a tabela ordenada levando em consideração relevância de cada grupo e a nota geral calculada,
+respectivamente.
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(readxl)
+library(writexl)
+library(corrplot)
+library(PerformanceAnalytics)
+library(Hmisc)
+library(ggplot2)
+library(readr)
+library(factoextra)
+library(performance)
+library(formattable)
+library(knitr)
+library(plotly)
+library(leaflet)
+set.seed(123)
+
+cores <- c("#294661","#7F312F","#808080","#B8860B","#5E3B56","#5F9EA0","#808000","#A0522D",
+           "#F5DEB3","#FF9900","#8B008B","#5F6B6D","#FB8281","#F4D25A","#7F898A","#A4DDEE",
+           "#FDAB89","#B687AC","#28738A","#A78F8F","#168980","darkred","#0000FF","#00FFFF",
+           "#DAA520","#DEB887") #VETOR DE CORES PARA OS GRAFICOS
+
+tabela7 <- read_xlsx(path = "../tratamento_geral/data/tabela7_ipea.xlsx")
+
+```
+
+## Definição dos Indicadores para os Grupos
+
+Os indicadores prioritários levam em consideração a quantidade de habitantes e a população prisional do município, além da relevância da quantidade de pessoas sob custódia ainda sem julgamento (pessoas sem condenação / provisórios).
+
+O intuito dessa relação é visualizar locais com alta taxa de penalização / aprisionamento e alto indicador de pessoas sem condenação.
+
+O gráfico @fig-relacao-populacoes mostra as três principais variáveis: População municipal, população prisional e indicador de presos provisórios. Dessa forma, pode-se extrair algumas percepções:
+
+ - Como se espera, a relação entre a quantidade de habitantes e a população prisional é diretamente proporcional; 
+ - Municípios com mais habitantes tendem a ter menor taxa de presos sem condenação;
+ - Municípios com taxa de presos provisórios superior a 60% possuem população prisional menor que 2.900 pessoas.
+
+```{r}
+#| label: fig-relacao-populacoes
+#| fig-cap: >  
+#|      Relação entre a quantidade de habitantes e a população prisional. Cada ponto simboliza um município com cores 
+#|      mostrando a porcentagem de custodiados sem condenação em relação à população prisional. 
+
+cor <- c("red", "blue", "green")
+fig <- tabela7 |> 
+  dplyr::select(
+   municipio,
+   populacao_mun,
+   tx_penal,
+   pop_prisional_total,
+   tx_provisorios_total
+  ) |> 
+  mutate(
+    `Índice - Presos sem condenação` = case_when(
+      tx_provisorios_total < 30 ~ "Menor que 30",
+      tx_provisorios_total <= 60 ~ "Entre 30 e 60",
+     TRUE ~ "Maior que 60"
+    ),
+    `Índice - Presos sem condenação` = factor(`Índice - Presos sem condenação`, levels = c("Menor que 30","Entre 30 e 60","Maior que 60"))
+  ) |> 
+  plot_ly(
+    x= ~populacao_mun, y= ~pop_prisional_total, 
+    color = ~factor(`Índice - Presos sem condenação`), 
+    colors = cor,
+    alpha = 0.7,
+    text = ~ municipio,
+    textposition = "auto"
+  )
+
+fig <- fig |> layout(
+  dragmode='drawopenpath', # INCLUI A FERRAMENTA PARA DESENHO
+  newshape=list(line = list(color='cyan', opacity = 0.5 )), 
+  #title = "Tempos médios / 2021",
+  uniformtext=list(minsize=8, mode='hide'),
+  font = list(family = "Calibri", color = "#294661", size = 14.5),
+  xaxis = list(title = "População Municipal"),
+  yaxis = list(title = "População prisional"),
+  legend = list(orientation = "v")
+)
+
+# CONFIGURACAO DAS FORMAS DE DESENHO NO GRAFICO
+fig <- config(
+  fig,
+  modeBarButtonsToAdd = list(
+                           'drawline', 
+                           'drawopenpath', 
+                           'drawclosedpath', 
+                           'drawcircle', 
+                           'drawrect', 
+                           'eraseshape'
+                       )
+  ) 
+  
+fig
+```
+
+## Definição do Número de Grupos
+
+A divisão em grupos de municípios visa otimizar os indicadores e a quantidade de pessoas atendidas pelo programa calculando-se os valores ideais com os municípios com índices semelhantes.
+
+Dada as condições de objetos das variáveis e suas correlações óbvias, foi escolhido o método *k-means* de agrupamento para os indicadores: população municipal, população prisional, taxa de penalização / aprisionamento e taxa de pessoas sem condenação.
+
+A @fig-num-cluster mostra o número ideal de *clusters* (grupos) utilizando o método *Gap Statistic (k)*.
+
+```{r}
+#| label: fig-num-cluster
+#| fig-cap: >  
+#|      Número ótimo de cluster para utilização do métodos *k-means*.
+
+df3 <-
+  tabela7  |>
+  dplyr::select(
+   indicador1,
+   indicador4,
+   indicador5,
+   indicador7,
+   nt_geral
+  ) |> 
+  scale() #CRIA O VETOR PARA PARA GRAFICO DE DISPERSAO
+
+# fviz_nbclust(df3, kmeans, method = c("wss"), print.summary = TRUE, verbose = TRUE, linecolor = "red", k.max = 5, iter.max = 20) +
+#    geom_vline(xintercept = 2, linetype = 2) #PLOTA O GRAFICO DE OTIMIZACAO DO NUMERO DE CLUSTERS
+# 
+# fviz_nbclust(df3, kmeans, method = c("silhouette"), print.summary = TRUE, verbose = TRUE, linecolor = "red", k.max = 5, iter.max = 20)
+
+fviz_nbclust(df3, kmeans, method = c("gap_stat"), nstart = 25, nboot = 50 , k.max = 5, iter.max = 20)
+
+
+
+```
+
+## Construção dos Grupos e Tabela de Indicadores
+
+A tabela abaixo mostra as médias (em escala) dos grupos para cada indicador. Nesse sentido, vê-se que os grupos 3, 4, 2 
+e 1 estão nessa ordem de interesse.
+
+Características de cada grupo (em média):
+
+-   Grupo 1: Média alta população municipal, média baixa taxa de aprisionamento, média baixa taxa de presos sem condenação, média baixa população prisional e baixa nota geral;
+
+-   Grupo 2: Média baixa população municipal, baixa taxa de aprisionamento, alta taxa de presos sem condenação, baixa população prisional e média baixa nota geral;
+
+-   Grupo 3: Alta população municipal, média alta taxa de aprisionamento, média alta taxa de presos sem condenação, alta população prisional e alta nota geral;
+
+-   Grupo 4: Baixa população municipal, alta taxa de aprisionamento, baixa taxa de presos sem condenação, média alta população prisional e média alta nota geral.
+
+
+```{r}
+
+df3 <-
+  tabela7  |>
+  dplyr::select(
+   indicador1,
+   indicador4,
+   indicador5,
+   indicador7,
+   nt_geral
+  ) |> 
+  scale() #CRIA O VETOR PARA PARA GRAFICO DE DISPERSAO
+
+taxaCluster3 <- kmeans(x =df3,centers = 4, nstart = 25) #CRIA OS CLUSTERS
+rel_cluster3 <-
+  cbind(tabela7, cluster= taxaCluster3$cluster ) |>
+  mutate(
+    index_tx_mvi = case_when(
+      tx_mvi_2022 > 40 ~ "Acima de 40",
+      tx_mvi_2022 > 20 ~ "entre 20 e 40",
+      tx_mvi_2022 > 0 ~ "até 20",
+      TRUE ~ "erro"
+    ),
+    Prioridade = indicador1 + indicador4 + indicador5 + indicador7
+  )
+
+t1 <- aggregate(df3, by=list(cluster=taxaCluster3$cluster), mean) 
+names(t1) <- c("Grupo","Indicador 1","Indicador 4","Indicador 5","Indicador 7","Indicador Nota geral")
+formattable::formattable(
+    t1,
+    align = c("c","l","l","l","l","l","l"),
+    list(
+    `Grupo` = color_tile("orange","lightblue"),
+    `Indicador 1` = color_bar("lightgrey"),
+    `Indicador 4`= color_bar("lightgrey"),
+    `Indicador 5`= color_bar("lightgrey"),
+    `Indicador 7`= color_bar("lightgrey"),
+    `Indicador Nota geral`= color_bar("lightblue"),
+    Prioridade = color_bar("lightblue")
+  )) |> 
+ formattable::as.datatable(
+    extensions = 'Buttons',
+    escape = FALSE,
+    #caption = "Quantidade de pessoas cumprindo penas estratificadas por tipo de custódia (modalidade) e sexo.",
+    rownames = FALSE,
+    class='display', #'hover cell-border stripe',
+    filter = "top",
+    style = "bootstrap4",
+    selection = c("multiple"), #c("multiple", "single", "none"),
+    options = list(
+      dom='Bfrtip',
+      buttons=c('copy', 'csv', 'excel', 'print', 'pdf'),
+      autoFill = TRUE,
+      colReorder = TRUE,
+      pageLength = 10, 
+      lengthMenu = seq(10,max(nrow(t1))+10,10),
+      autoWidth = TRUE,
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        #"$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});", - #CONFIGURACAO DO CABECALHO
+        "$('body').css({'font-family': 'Calibri'});",
+        "}"
+      ),
+      language = list(
+        info = 'Mostrando de _START_ para _END_ em um total de _TOTAL_ registros',
+        paginate = list(previous = 'Anterior', `next` = 'Seguinte'),
+        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+      )
+    )
+  )
+
+
+```
+
+## Resumo dos Grupos
+
+A tabela abaixo traz o resumo dos principais indicadores de cada grupo. Dessa forma, fica evidente a superioridade das médias gerais para os grupos 3 e 4, respectivamente. Porém, em relação à quantidade de presos sem condenação e suas respectivas taxas, o grupo 2 supera o quarto cluster nos dois quesitos.
+
+Com relação à quantidade de municípios em cada grupo, somente 16 cidades estão nos grupos mais relevantes (3 e 4), porém as mesmas possuem 28,38% de toda a população prisional brasileira, ou seja, 241.694 pessoas sob custódia. Ao voltar o olhar para a quantidade de pessoas sem condenação, vê-se que 23,5% das pessoas nessa condição se encontram custodiadas nos municípios dos grupos 3 e 4 (47.755 pessoas).
+
+```{r}
+t1 <- rel_cluster3 |> 
+  group_by(cluster) |> 
+  reframe(
+    `Pop. Municipal`= sum(populacao_mun, na.rm = TRUE),
+    `Qtd. de Municípios` = n(),
+    `Pop. Prisional` = sum(pop_prisional_total, na.rm = TRUE),
+    `Pop. Pris. sem condenação` = sum(pop_prisional_provisorios_total,na.rm = TRUE),
+    `Média - Taxa de presos sem condenação` = round(mean(tx_provisorios_total,na.rm = TRUE),digits = 2),
+    `Média - Nota geral` = round(mean(nt_geral,na.rm = TRUE),digits = 2)
+  ) |> 
+  select(
+    Grupo = cluster,everything()
+  )
+
+formattable::formattable(
+    t1,
+    align = c("c","l","l","l","l","c"),
+    list(
+      `Grupo` = color_tile("orange","lightblue"),
+      `Pop. Municipal` = color_bar("lightgrey"),
+      `Qtd. de Municípios`= color_bar("lightgrey"),
+      `Pop. Prisional`= color_bar("lightgrey"),
+      `Pop. Pris. sem condenação`= color_bar("lightgrey"),
+      `Média - Taxa de presos sem condenação`= color_bar("lightgrey"),
+      `Média- Nota geral`= color_bar("lightblue")
+  )) |> 
+ formattable::as.datatable(
+    extensions = 'Buttons',
+    escape = FALSE,
+    #caption = "Quantidade de pessoas cumprindo penas estratificadas por tipo de custódia (modalidade) e sexo.",
+    rownames = FALSE,
+    class='display', #'hover cell-border stripe',
+    filter = "top",
+    style = "bootstrap5",
+    selection = c("multiple"), #c("multiple", "single", "none"),
+    options = list(
+      dom='Bfrtip',
+      buttons=c('copy', 'csv', 'excel', 'print', 'pdf'),
+      autoFill = TRUE,
+      colReorder = TRUE,
+      pageLength = 10, 
+      lengthMenu = seq(10,max(nrow(t1))+10,10),
+      autoWidth = TRUE,
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        #"$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});", - #CONFIGURACAO DO CABECALHO
+        "$('body').css({'font-family': 'Calibri'});",
+        "}"
+      ),
+      language = list(
+        info = 'Mostrando de _START_ para _END_ em um total de _TOTAL_ registros',
+        paginate = list(previous = 'Anterior', `next` = 'Seguinte'),
+        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+      )
+    )
+  )
+
+
+  
+```
+
+## Gráfico de Relação entre População Prisional e Taxa de Presos sem Condenação
+
+O próximo gráfico, @fig-graf-populacao-sem-condenacao, traz a relação entre a população prisional e taxa de presos sem condenação separadas por grupos. Verifica-se a concentração dos grupos mais interessantes - 3 e 4 - com população prisional acima de 2.700 pessoas.
+
+```{r}
+#| label: fig-graf-populacao-sem-condenacao
+#| fig-cap: >  
+#|      Relação entre população prisional e taxa de presos sem condenação separadas por grupos.
+
+cor <- c("red", "blue", "green","black")
+
+fig  <-  plot_ly(
+  data = rel_cluster3, 
+  x= ~pop_prisional_total, 
+  y= ~tx_provisorios_total, 
+  color = ~factor(cluster), 
+  colors = cor,
+  text = ~ municipio,
+  textposition = "auto"
+)
+
+fig <- fig |> layout(
+  dragmode='drawopenpath', # INCLUI A FERRAMENTA PARA DESENHO
+  newshape=list(line = list(color='cyan', opacity = 0.5 )), 
+  #title = "Tempos médios / 2021",
+  uniformtext=list(minsize=8, mode='hide'),
+  font = list(family = "Calibri", color = "#294661", size = 14.5),
+  xaxis = list(title = "População prisional"),
+  yaxis = list(title = "Taxa de presos sem Condenação"),
+  legend = list(orientation = "v")
+)
+
+# CONFIGURACAO DAS FORMAS DE DESENHO NO GRAFICO
+fig <- config(
+  fig,
+  modeBarButtonsToAdd = list(
+                           'drawline', 
+                           'drawopenpath', 
+                           'drawclosedpath', 
+                           'drawcircle', 
+                           'drawrect', 
+                           'eraseshape'
+                       )
+  ) 
+  
+fig
+```
+
+## Tabela com relação a População Prisional e a Taxa de Presos sem Condenação
+
+A tabela abaixo lista os municípios e suas respectivas prioridades.
+
+```{r}
+t1 <- rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral, digits = 5),
+    cluster = factor(cluster, level = c(3,4,2,1))
+  ) |> 
+  arrange(cluster,desc(nt_geral)) |> 
+  mutate(Prioridade = seq(1,nrow(rel_cluster3))) |> 
+  dplyr::select(
+    Grupo = cluster,
+    `Unid. Federativa` = uf,
+    `Município` = municipio,
+    `Pop. Municipal`= populacao_mun,
+    `Pop. Prisional` = pop_prisional_total,
+    `Pop. Pris. sem condenação` = pop_prisional_provisorios_total,
+    `Taxa de presos sem condenação` = tx_provisorios_total,
+    `Qtd. mortes violentas` = mvi_2022,
+    `Taxa de mortes violentas` = tx_mvi_2022,
+    `Nota geral` = nt_geral,
+    Prioridade = Prioridade
+  ) 
+
+formattable::formattable(
+    t1,
+    align = c("c","l","l","l","l","l","l","l","l","l","c"),
+    list(
+    `Grupo` = color_tile("orange","lightblue"),
+    `Unid. Federativa` = color_tile("orange","lightblue"),
+    `Município` = color_tile("orange","lightblue"),
+    `Pop. Municipal` = color_bar("lightgrey"),
+    `Pop. Prisional`= color_bar("lightgrey"),
+    `Pop. Pris. sem condenação`= color_bar("lightgrey"),
+    `Taxa de presos sem condenação`= color_bar("lightgrey"),
+    `Qtd. mortes violentas`= color_bar("lightgrey"),
+    `Taxa de mortes violentas`= color_bar("lightgrey"),
+    `Nota geral`= color_bar("lightblue"),
+    `Prioridade`= color_tile("orange","lightblue")
+  ))|> 
+ formattable::as.datatable(
+    extensions = 'Buttons',
+    escape = FALSE,
+    #caption = "Quantidade de pessoas cumprindo penas estratificadas por tipo de custódia (modalidade) e sexo.",
+    rownames = FALSE,
+    class='display', #'hover cell-border stripe',
+    filter = "top",
+    style = "bootstrap5",
+    selection = c("multiple"), #c("multiple", "single", "none"),
+    options = list(
+      dom='Bfrtip',
+      buttons=c('copy', 'csv', 'excel', 'print', 'pdf'),
+      autoFill = TRUE,
+      colReorder = TRUE,
+      pageLength = 10, 
+      lengthMenu = seq(10,max(nrow(t1))+10,10),
+      autoWidth = TRUE,
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        #"$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});", - #CONFIGURACAO DO CABECALHO
+        "$('body').css({'font-family': 'Calibri'});",
+        "}"
+      ),
+      language = list(
+        info = 'Mostrando de _START_ para _END_ em um total de _TOTAL_ registros',
+        paginate = list(previous = 'Anterior', `next` = 'Seguinte'),
+        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+      )
+    )
+  )
+
+
+  
+```
+
+\`\`\`
+
+## Visualizações
+
+Os próximos tópicos apresentam mapas e tabelas para visualização espacial da nota geral e grupos.
+
+### Visualização da Nota Geral
+
+O mapa a seguir expõe a localização geográfica dos municípios estudados neste trabalho e evidencia a nota geral
+com o tamanho do círculo proporcional à mesma calculada pelos métodos já explicitados nos tópicos anteriores. 
+
+```{r}
+
+  rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral,digits = 2)
+  ) |> 
+  #filter(cluster %in% c(3,4)) |> 
+  leaflet::leaflet() |> 
+  leaflet::addTiles() |> 
+  leaflet::addCircleMarkers(
+    lng = ~ longitude,
+    lat = ~ latitude,
+    popup = ~ municipio,
+    label = ~ nt_geral,
+    radius = ~ nt_geral*3,
+    #fillColor =  ~ nt_geral,
+    color = NULL
+  ) 
+```
+
+
+### Visualização dos Grupos
+
+O próximo mapa traz a visualização dos municípios por grupo. As cores estão dispostas da seguintes maneira:
+
+  - Grupo 01: verde;
+  - Grupo 02: laranja;
+  - Grupo 03: azul;
+  - Grupo 04: vermelho.
+
+```{r}
+
+getColor <- function(cluster) {
+  sapply(rel_cluster3$cluster, function(cluster) {
+  if(cluster == 1) {
+    "green"
+  } else if(cluster == 2) {
+    "orange"
+  } else if(cluster == 3) {
+    "blue"
+  } else {
+    "red"
+  } })
+}
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = getColor(rel_cluster3)
+)
+  
+rel_cluster3 |> 
+  leaflet::leaflet() |> 
+  leaflet::addTiles() |> 
+  leaflet::addAwesomeMarkers(
+    ~longitude, 
+    ~latitude, 
+    icon=icons, 
+    label= ~ nt_geral,
+    popup = ~municipio
+  )
+```
+
+### Visualização das Prioridades
+
+A visualização a seguir evidencia as 27 prioridades baseadas nos grupos e notas gerais. Neste modelo, algumas unidades
+federativas não constam na lista como, exemplo, Santa Catarina e Rio Grande do Sul. Por outro lado, o estado da Bahia
+possui três municípios listados (Salvador, Barreiras e Feira de Santana).
+
+```{r}
+
+rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral, digits = 2),
+    cluster = factor(cluster, level = c(3,4,2,1))
+  ) |> 
+  arrange(cluster,desc(nt_geral)) |> 
+  mutate(Prioridade = seq(1,nrow(rel_cluster3))) |>  
+  filter(Prioridade <= 27) |> 
+  leaflet::leaflet() |> 
+  leaflet::addTiles() |> 
+  leaflet::addAwesomeMarkers(
+    ~longitude, 
+    ~latitude, 
+    label= ~ nt_geral,
+    popup = ~municipio
+  )
+```
+
+```{r}
+t1 <- rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral, digits = 2),
+    cluster = factor(cluster, level = c(3,4,2,1))
+  ) |> 
+  arrange(cluster,desc(nt_geral)) |> 
+  mutate(Prioridade = seq(1,nrow(rel_cluster3))) |>  
+  filter(Prioridade <= 27) |> 
+  dplyr::select(
+    Grupo = cluster,
+    `Unid. Federativa` = uf,
+    `Município` = municipio,
+    `Pop. Municipal`= populacao_mun,
+    `Pop. Prisional` = pop_prisional_total,
+    `Pop. Pris. sem condenação` = pop_prisional_provisorios_total,
+    `Taxa de presos sem condenação` = tx_provisorios_total,
+    `Qtd. mortes violentas` = mvi_2022,
+    `Taxa de mortes violentas` = tx_mvi_2022,
+    `Nota geral` = nt_geral,
+    Prioridade = Prioridade
+  ) 
+
+formattable::formattable(
+    t1,
+    align = c("c","l","l","l","l","l","l","l","l","l","c"),
+    list(
+    `Grupo` = color_tile("orange","lightblue"),
+    `Unid. Federativa` = color_tile("orange","lightblue"),
+    `Município` = color_tile("orange","lightblue"),
+    `Pop. Municipal` = color_bar("lightgrey"),
+    `Pop. Prisional`= color_bar("lightgrey"),
+    `Pop. Pris. sem condenação`= color_bar("lightgrey"),
+    `Taxa de presos sem condenação`= color_bar("lightgrey"),
+    `Qtd. mortes violentas`= color_bar("lightgrey"),
+    `Taxa de mortes violentas`= color_bar("lightgrey"),
+    `Nota geral`= color_bar("lightblue"),
+    `Prioridade`= color_tile("orange","lightblue")
+  ))|> 
+ formattable::as.datatable(
+    extensions = 'Buttons',
+    escape = FALSE,
+    #caption = "Quantidade de pessoas cumprindo penas estratificadas por tipo de custódia (modalidade) e sexo.",
+    rownames = FALSE,
+    class='display', #'hover cell-border stripe',
+    filter = "top",
+    style = "bootstrap5",
+    selection = c("multiple"), #c("multiple", "single", "none"),
+    options = list(
+      dom='Bfrtip',
+      buttons=c('copy', 'csv', 'excel', 'print', 'pdf'),
+      autoFill = TRUE,
+      colReorder = TRUE,
+      pageLength = 10, 
+      lengthMenu = seq(10,max(nrow(t1))+10,10),
+      autoWidth = TRUE,
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        #"$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});", - #CONFIGURACAO DO CABECALHO
+        "$('body').css({'font-family': 'Calibri'});",
+        "}"
+      ),
+      language = list(
+        info = 'Mostrando de _START_ para _END_ em um total de _TOTAL_ registros',
+        paginate = list(previous = 'Anterior', `next` = 'Seguinte'),
+        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+      )
+    )
+  )
+```
+
+
+### Visualização das Prioridades por Unidade Federativa
+
+A visualização a seguir evidencia as 27 prioridades baseadas nos grupos e notas gerais, além disso, 
+torna-se importante incluir mais um critério baseado na existência de, pelo menos, um município por 
+unidade federativa. Dessa forma, o mapa mostra a cidade com maior prioridade em cada estado da federação,
+consequentemente, todas unidades federativas estão representadas no mapa.
+
+```{r}
+
+filtro <- rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral, digits = 2),
+    cluster = factor(cluster, level = c(3,4,2,1))
+  ) |> 
+  arrange(cluster,desc(nt_geral)) |> 
+  mutate(Prioridade = seq(1,nrow(rel_cluster3))) |> 
+  group_by(uf) |> 
+  reframe(Prioridade = min(Prioridade))
+
+
+tab_uf <- rel_cluster3 |> 
+  mutate(
+    nt_geral = round(nt_geral, digits = 2),
+    cluster = factor(cluster, level = c(3,4,2,1))
+  ) |> 
+  arrange(cluster,desc(nt_geral)) |> 
+  mutate(Prioridade = seq(1,nrow(rel_cluster3))) |> 
+  filter(Prioridade %in% filtro$Prioridade)
+   
+tab_uf |> 
+  leaflet::leaflet() |> 
+  leaflet::addTiles() |> 
+  leaflet::addAwesomeMarkers(
+    ~longitude, 
+    ~latitude, 
+    label= ~ nt_geral,
+    popup = ~municipio
+  )
+```
+
+Pela visualização do mapa acima e dados todos os critérios, indicadores e particularidades dos municípios e unidades federativas consideradas para definição das prioridades do projeto Clínicas de Acesso a Direitos, a próxima tabela sintetiza o trabalho e sugere 27 municípios os quais se esquadram melhor nos objetivos requeridos. Nota-se que, na maioria dos estados, as capitais têm prioridade.
+
+```{r}
+t1 <- tab_uf |> 
+  dplyr::select(
+    Grupo = cluster,
+    `Unid. Federativa` = uf,
+    `Município` = municipio,
+    `Pop. Municipal`= populacao_mun,
+    `Pop. Prisional` = pop_prisional_total,
+    `Pop. Pris. sem condenação` = pop_prisional_provisorios_total,
+    `Taxa de presos sem condenação` = tx_provisorios_total,
+    `Qtd. mortes violentas` = mvi_2022,
+    `Taxa de mortes violentas` = tx_mvi_2022,
+    `Nota geral` = nt_geral,
+    Prioridade = Prioridade
+  ) 
+
+formattable::formattable(
+    t1,
+    align = c("c","l","l","l","l","l","l","l","l","l","c"),
+    list(
+    `Grupo` = color_tile("orange","lightblue"),
+    `Unid. Federativa` = color_tile("orange","lightblue"),
+    `Município` = color_tile("orange","lightblue"),
+    `Pop. Municipal` = color_bar("lightgrey"),
+    `Pop. Prisional`= color_bar("lightgrey"),
+    `Pop. Pris. sem condenação`= color_bar("lightgrey"),
+    `Taxa de presos sem condenação`= color_bar("lightgrey"),
+    `Qtd. mortes violentas`= color_bar("lightgrey"),
+    `Taxa de mortes violentas`= color_bar("lightgrey"),
+    `Nota geral`= color_bar("lightblue"),
+    `Prioridade`= color_tile("orange","lightblue")
+  ))|> 
+ formattable::as.datatable(
+    extensions = 'Buttons',
+    escape = FALSE,
+    #caption = "Quantidade de pessoas cumprindo penas estratificadas por tipo de custódia (modalidade) e sexo.",
+    rownames = FALSE,
+    class='display', #'hover cell-border stripe',
+    filter = "top",
+    style = "bootstrap5",
+    selection = c("multiple"), #c("multiple", "single", "none"),
+    options = list(
+      dom='Bfrtip',
+      buttons=c('copy', 'csv', 'excel', 'print', 'pdf'),
+      autoFill = TRUE,
+      colReorder = TRUE,
+      pageLength = 10, 
+      lengthMenu = seq(10,max(nrow(t1))+10,10),
+      autoWidth = TRUE,
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        #"$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});", - #CONFIGURACAO DO CABECALHO
+        "$('body').css({'font-family': 'Calibri'});",
+        "}"
+      ),
+      language = list(
+        info = 'Mostrando de _START_ para _END_ em um total de _TOTAL_ registros',
+        paginate = list(previous = 'Anterior', `next` = 'Seguinte'),
+        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+      )
+    )
+  )
+```
+
+## Conclusão
+
+As definições das condições importantes ao alcance de bons resultados na aplicação de políticas públicas prisionais
+implica em uma visão sistêmica e integralizadora abrangente às diversas áreas de estudos sociais. Com esse
+pensamento em mente, este relatório cumpriu seu papel de analisar diversos indicadores e identificar os locais 
+mais propícios para implantação do projeto de Clínicas de Acesso a Direitos.
+
+As listas com as prioridades considera, entre outros aspectos, a população prisional e, nesse aspecto, cerca de 242.000
+pessoas (23,38%) poderão ser beneficiadas. Além disso, as pessoas custodiadas sem condenação, presentes nos municípios prioritários, somam 47.755 pessoas e representam 23,5% do total de custodiados nessa situação em todo o Brasil. 
+
+Por fim, as cidades priotárias citadas neste trabalho abrangem cerca de 17,3% da população brasileira, 23,38% da
+população prisional e 23,5% da população prisional custodiada sem condenação.
+
