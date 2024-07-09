@@ -1,0 +1,142 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Definição de Prioridades - Projeto Clínicas de Acesso a Direitos",
+    "section": "",
+    "text": "Secretaria Nacional dos Serviços Penais - Senappen\nA Secretaria Nacional de Políticas Penais (SENAPPEN) é o órgão executivo que acompanha e controla a aplicação da Lei de Execução Penal e das diretrizes da Política Penitenciária Nacional, emanadas, principalmente, pelo Conselho Nacional de Política Criminal e Penitenciária – CNPCP (BRASIL, 2023).\nSuas competências foram positivadas nos artigos 71 e 72 da Lei nº 7.210, de 11 de julho de 1984 - Lei de Execução Penal e regimentadas na Portaria nº 199 de 9 de novembro de 2018.\nO órgão federal está integrado à estrutura do Ministério da Justiça e Segurança Pública definida no Decreto nº 11.348, de 1º de janeiro de 2023.\nA Secretaria é responsável pelo Sistema Penitenciário Federal, cujos principais objetivos são isolamento das lideranças do crime organizado, cumprimento rigoroso da Lei de Execução Penal e custódia de presos condenados e provisórios sujeitos ao regime disciplinar diferenciado; líderes de organizações criminosas; presos responsáveis pela prática reiterada de crimes violentos; presos responsáveis por ato de fuga ou grave indisciplina no sistema prisional de origem; presos de alta periculosidade e que possam comprometer a ordem e segurança pública; réus colaboradores presos ou delatores premiados.\nAlém disso, a Senappen é gestora do Fundo Penitenciário Nacional – FUNPEN, criado pela Lei Complementar n° 79, de 07 de janeiro de 1994 e regulamentado pelo Decreto n° 1.093, de 23 de março de 1994. O fundo tem a finalidade de proporcionar recursos e meios para financiar e apoiar as atividades e os programas de modernização e aprimoramento do sistema penitenciário nacional.\nEm 1º de janeiro de 2023, por força do artigo 59 da Medida Provisória nº 1.154 , o Departamento Penitenciário Nacional - DEPEN - foi transformado na Secretaria Nacional de Políticas Penais, mantendo as competências e a execução das responsabilidades estabelecidas em lei.\n\n\nDiretoria de Políticas Penitenciárias - Dirpp/Senappen\nA Diretoria de Políticas Penitenciárias - Dirpp - está vinculada à Secretaria Nacional de Políticas Penais (Senappen) do Ministério da Justiça e Segurança Pública (MJSP).\nPossui como objetivos primordiais: apoiar a gestão penal dos entes federativos; fomentar a criação e a atuação de conselhos da comunidade; fomentar as políticas de assistências aos presos respeitando as diversidades; promover a articulação com os órgãos e as instituições de execução penal;\nEm consonância com as melhores práticas de transparência no serviço público, o regimento interno do Secretaria Nacional de Políticas Penais (Senappen) - portaria MJ nº 199, de 9 de novembro de 2018 - traz como atribuição da Dirpp em seu artigo 27, entre outros (BRASIL, 2018):\n\n\n\n\n\n\nIII - fomentar planos e ações de integração e gestão de banco de dados nacional de informações e estatísticas sobre os sistemas prisionais da União e dos entes federativos;\nVII - propor estudos e pesquisas relacionados a políticas penais, à gestão e intersetorialidade dos serviços penais e aos servidores penais;\n\n\n\n\n\n\n\nBRASIL. Secretaria Nacional de Políticas Penais - Institucional. Brasília, Brasil: Senappen, 2023.\n\n\nBRASIL, M. DA J. E. S. P. Portaria n 199, de 9 de novembro de 2018. 2018.",
+    "crumbs": [
+      "Secretaria Nacional dos Serviços Penais - Senappen"
+    ]
+  },
+  {
+    "objectID": "index.html#footnotes",
+    "href": "index.html#footnotes",
+    "title": "Definição de Prioridades - Projeto Clínicas de Acesso a Direitos",
+    "section": "",
+    "text": "A atuação do Fórum Brasileiro de Segurança Pública na coleta de dados é disciplinada pelo Termo de Parceria nº 817052/2015, firmado entre o Fórum Brasileiro de Segurança Pública e o Ministério da Justiça para Pesquisa e análise de dados vinculados ao campo da segurança pública e sistema penitenciário.↩︎",
+    "crumbs": [
+      "Secretaria Nacional dos Serviços Penais - Senappen"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "",
+    "text": "1.1 Metodologia\nOs critérios de construção da metodologia evidencia a importância de alguns indicadores básicos advindos de áreas distintas, tais como, métricas sociais, demográficas, educacionais e prisionais.\nO filtro inicial dentre os municípios brasileiros possui os seguintes critérios:\nApós a aplicação dos critérios supracitados, restaram 74 cidades aptas à ordenação de prioridades.\nO próximo passo é relativo à escolha dos indicadores pelos gestores do projeto para composição da nota geral e suas respectivas ponderações que caracterizam a importância de cada índice na formação da lista ordenada. Nesse sentido, foram escolhidos os seguintes:\nDefinição dos parâmetros de ponderação de cada indicador foram definidos a partir dos seguintes critérios:\nDessa forma, a nota geral é dada pela seguinte equação:\n\\[\nNota \\ geral = \\dfrac{\\sum_{i=1}^{12} (Indicador \\ i \\ \\times Peso \\ i) }{\\sum_{i=1}^{12}Peso \\ i}\n\\]\nA próxima etapa metodológica consiste na separação dos municípios em grupos (clusters) com indicadores característicos semelhantes. Essa fase foi elaborada utilizando o método k-means. Os indicadores 1,4,5,7 e a nota geral foram escolhidos como variáveis para definição dos clusters.\nPor fim, gera-se a tabela ordenada levando em consideração relevância de cada grupo e a nota geral calculada, respectivamente.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#metodologia",
+    "href": "intro.html#metodologia",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "",
+    "text": "O município deve constar na lista de participantes do Pronasci escolhidos com base em indicadores de violência urbana analisados e classificados pelo Instituto de Pesquisa Econômica Aplicada – IPEA;\nO município deve possuir unidades prisionais em seu território ou, no caso de capitais, possuir estabelecimentos penitenciários em sua região metropolitana;\nO município deve ter campus de universidade federal.\n\n\n\n\nIndicador 1: Quantidade de habitantes do município (peso 4);\nIndicador 2: Quantidade de homicídios dolosos (peso 3);\nIndicador 3: Taxa de homicídios dolosos para cada 100.000 habitantes (peso 2);\nIndicador 4: População prisional interna e externa aos estabelecimentos penitenciários (peso 3);\nIndicador 5: Taxa de pessoas em custódia para cada 100.000 habitantes considerando a população da Unidade Federativa (peso 2);\nIndicador 6: Quantidade de pessoas presas sem condenação (peso 4);\nIndicador 7: Taxa de pessoas presas sem condenação em relação à população prisional do município (peso 2);\nIndicador 8: Quantidade de mortes violentas no município Quantidade de pessoas presas sem condenação (peso 4);\nIndicador 9: Taxa de mortes violentas para cada 100.000 pessoas no município (peso 2);\nIndicador 10: Quantidade de defensores públicos na unidade federativa (peso 0.25);\nIndicador 11: Taxa de defensores públicos para cada 100.000 habitantes na unidade federativa (peso 0.5);\nIndicador 12: Existência de Centro de Alternativas Penais - Ciap.\n\n\n\nMaior peso para indicadores de quantidade absoluta;\nMenor peso para indicadores de quantidade relativa;\nPesos inversamente proporcionais para indicadores da quantidade de defensores públicos;\nSomado um ponto ao município que contém Ciap.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#definição-dos-indicadores-para-os-grupos",
+    "href": "intro.html#definição-dos-indicadores-para-os-grupos",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.2 Definição dos Indicadores para os Grupos",
+    "text": "1.2 Definição dos Indicadores para os Grupos\nOs indicadores prioritários levam em consideração a quantidade de habitantes e a população prisional do município, além da relevância da quantidade de pessoas sob custódia ainda sem julgamento (pessoas sem condenação / provisórios).\nO intuito dessa relação é visualizar locais com alta taxa de penalização / aprisionamento e alto indicador de pessoas sem condenação.\nO gráfico Figura 1.1 mostra as três principais variáveis: População municipal, população prisional e indicador de presos provisórios. Dessa forma, pode-se extrair algumas percepções:\n\nComo se espera, a relação entre a quantidade de habitantes e a população prisional é diretamente proporcional;\nMunicípios com mais habitantes tendem a ter menor taxa de presos sem condenação;\nMunicípios com taxa de presos provisórios superior a 60% possuem população prisional menor que 2.900 pessoas.\n\n\n\n\n\n\n\n\nFigura 1.1: Relação entre a quantidade de habitantes e a população prisional. Cada ponto simboliza um município com cores mostrando a porcentagem de custodiados sem condenação em relação à população prisional.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#definição-do-número-de-grupos",
+    "href": "intro.html#definição-do-número-de-grupos",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.3 Definição do Número de Grupos",
+    "text": "1.3 Definição do Número de Grupos\nA divisão em grupos de municípios visa otimizar os indicadores e a quantidade de pessoas atendidas pelo programa calculando-se os valores ideais com os municípios com índices semelhantes.\nDada as condições de objetos das variáveis e suas correlações óbvias, foi escolhido o método k-means de agrupamento para os indicadores: população municipal, população prisional, taxa de penalização / aprisionamento e taxa de pessoas sem condenação.\nA Figura 1.2 mostra o número ideal de clusters (grupos) utilizando o método Gap Statistic (k).\n\n\n\n\n\n\n\nFigura 1.2: Número ótimo de cluster para utilização do métodos k-means.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#construção-dos-grupos-e-tabela-de-indicadores",
+    "href": "intro.html#construção-dos-grupos-e-tabela-de-indicadores",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.4 Construção dos Grupos e Tabela de Indicadores",
+    "text": "1.4 Construção dos Grupos e Tabela de Indicadores\nA tabela abaixo mostra as médias (em escala) dos grupos para cada indicador. Nesse sentido, vê-se que os grupos 3, 4, 2 e 1 estão nessa ordem de interesse.\nCaracterísticas de cada grupo (em média):\n\nGrupo 1: Média alta população municipal, média baixa taxa de aprisionamento, média baixa taxa de presos sem condenação, média baixa população prisional e baixa nota geral;\nGrupo 2: Média baixa população municipal, baixa taxa de aprisionamento, alta taxa de presos sem condenação, baixa população prisional e média baixa nota geral;\nGrupo 3: Alta população municipal, média alta taxa de aprisionamento, média alta taxa de presos sem condenação, alta população prisional e alta nota geral;\nGrupo 4: Baixa população municipal, alta taxa de aprisionamento, baixa taxa de presos sem condenação, média alta população prisional e média alta nota geral.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#resumo-dos-grupos",
+    "href": "intro.html#resumo-dos-grupos",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.5 Resumo dos Grupos",
+    "text": "1.5 Resumo dos Grupos\nA tabela abaixo traz o resumo dos principais indicadores de cada grupo. Dessa forma, fica evidente a superioridade das médias gerais para os grupos 3 e 4, respectivamente. Porém, em relação à quantidade de presos sem condenação e suas respectivas taxas, o grupo 2 supera o quarto cluster nos dois quesitos.\nCom relação à quantidade de municípios em cada grupo, somente 16 cidades estão nos grupos mais relevantes (3 e 4), porém as mesmas possuem 28,38% de toda a população prisional brasileira, ou seja, 241.694 pessoas sob custódia. Ao voltar o olhar para a quantidade de pessoas sem condenação, vê-se que 23,5% das pessoas nessa condição se encontram custodiadas nos municípios dos grupos 3 e 4 (47.755 pessoas).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#gráfico-de-relação-entre-população-prisional-e-taxa-de-presos-sem-condenação",
+    "href": "intro.html#gráfico-de-relação-entre-população-prisional-e-taxa-de-presos-sem-condenação",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.6 Gráfico de Relação entre População Prisional e Taxa de Presos sem Condenação",
+    "text": "1.6 Gráfico de Relação entre População Prisional e Taxa de Presos sem Condenação\nO próximo gráfico, Figura 1.3, traz a relação entre a população prisional e taxa de presos sem condenação separadas por grupos. Verifica-se a concentração dos grupos mais interessantes - 3 e 4 - com população prisional acima de 2.700 pessoas.\n\n\n\n\n\n\n\nFigura 1.3: Relação entre população prisional e taxa de presos sem condenação separadas por grupos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#tabela-com-relação-a-população-prisional-e-a-taxa-de-presos-sem-condenação",
+    "href": "intro.html#tabela-com-relação-a-população-prisional-e-a-taxa-de-presos-sem-condenação",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.7 Tabela com relação a População Prisional e a Taxa de Presos sem Condenação",
+    "text": "1.7 Tabela com relação a População Prisional e a Taxa de Presos sem Condenação\nA tabela abaixo lista os municípios e suas respectivas prioridades.\n\n\n\n\n\n\n```",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#visualizações",
+    "href": "intro.html#visualizações",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.8 Visualizações",
+    "text": "1.8 Visualizações\nOs próximos tópicos apresentam mapas e tabelas para visualização espacial da nota geral e grupos.\n\n1.8.1 Visualização da Nota Geral\nO mapa a seguir expõe a localização geográfica dos municípios estudados neste trabalho e evidencia a nota geral com o tamanho do círculo proporcional à mesma calculada pelos métodos já explicitados nos tópicos anteriores.\n\n\n\n\n\n\n\n1.8.2 Visualização dos Grupos\nO próximo mapa traz a visualização dos municípios por grupo. As cores estão dispostas da seguintes maneira:\n\nGrupo 01: verde;\nGrupo 02: laranja;\nGrupo 03: azul;\nGrupo 04: vermelho.\n\n\n\n\n\n\n\n\n1.8.3 Visualização das Prioridades\nA visualização a seguir evidencia as 27 prioridades baseadas nos grupos e notas gerais. Neste modelo, algumas unidades federativas não constam na lista como, exemplo, Santa Catarina e Rio Grande do Sul. Por outro lado, o estado da Bahia possui três municípios listados (Salvador, Barreiras e Feira de Santana).\n\n\n\n\n\n\n\n\n\n\n\n\n\n1.8.4 Visualização das Prioridades por Unidade Federativa\nA visualização a seguir evidencia as 27 prioridades baseadas nos grupos e notas gerais, além disso, torna-se importante incluir mais um critério baseado na existência de, pelo menos, um município por unidade federativa. Dessa forma, o mapa mostra a cidade com maior prioridade em cada estado da federação, consequentemente, todas unidades federativas estão representadas no mapa.\n\n\n\n\n\n\nPela visualização do mapa acima e dados todos os critérios, indicadores e particularidades dos municípios e unidades federativas consideradas para definição das prioridades do projeto Clínicas de Acesso a Direitos, a próxima tabela sintetiza o trabalho e sugere 27 municípios os quais se esquadram melhor nos objetivos requeridos. Nota-se que, na maioria dos estados, as capitais têm prioridade.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "\n2  Summary\n",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.\n\n\nFALSE [1] 2",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "BRASIL. Lei\nnº 12.651, de 25 de maio de 2012. Dispõe sobre o sistema de\nacompanhamento da execução das penas, da prisão cautelar e da medida de\nsegurança. Diário Oficial da República Federativa do\nBrasil, 14 set. 2012.\n\n\nBRASIL. Secretaria\nNacional de Políticas Penais - Institucional. Brasília,\nBrasil: Senappen, 2023.\n\n\nBRASIL, M. DA J. E. S. P. Portaria n 199, de 9 de novembro\nde 2018. 2018.\n\n\nBRASIL, S. N. DOS S. P. Levantamento\nnacional de informações\npenitenciárias - Junho de 2016. p. 65, 2016.\n\n\nJUSTIÇA, M. DA. Levantamento nacional de\ninformações penitenciárias\nInfopen: junho de 2014. MJ Brası́lia, 2014.\n\n\nR CORE TEAM. R: A Language\nand Environment for Statistical Computing. Vienna, Austria:\nR Foundation for Statistical Computing, 2023.\n\n\nREN, K.; RUSSELL, K. formattable:\nCreate ’Formattable’ Data Structures. [s.l: s.n.].\n\n\nSIEVERT, C. Interactive Web-Based\nData Visualization with R, plotly, and shiny. [s.l.]\nChapman; Hall/CRC, 2020.\n\n\nWICKHAM, H. et al. Welcome\nto the tidyverse. Journal of Open Source\nSoftware, v. 4, n. 43, p. 1686, 2019.",
+    "crumbs": [
+      "References"
+    ]
+  },
+  {
+    "objectID": "intro.html#conclusão",
+    "href": "intro.html#conclusão",
+    "title": "\n1  Prioridades do Projeto Clinícas de Acesso a Direitos\n",
+    "section": "\n1.9 Conclusão",
+    "text": "1.9 Conclusão\nAs definições das condições importantes ao alcance de bons resultados na aplicação de políticas públicas prisionais implica em uma visão sistêmica e integralizadora abrangente às diversas áreas de estudos sociais. Com esse pensamento em mente, este relatório cumpriu seu papel de analisar diversos indicadores e identificar os locais mais propícios para implantação do projeto de Clínicas de Acesso a Direitos.\nAs listas com as prioridades considera, entre outros aspectos, a população prisional e, nesse aspecto, cerca de 242.000 pessoas (23,38%) poderão ser beneficiadas. Além disso, as pessoas custodiadas sem condenação, presentes nos municípios prioritários, somam 47.755 pessoas e representam 23,5% do total de custodiados nessa situação em todo o Brasil.\nPor fim, as cidades priotárias citadas neste trabalho abrangem cerca de 17,3% da população brasileira, 23,38% da população prisional e 23,5% da população prisional custodiada sem condenação.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Prioridades do Projeto Clinícas de Acesso a Direitos</span>"
+    ]
+  }
+]
