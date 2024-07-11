@@ -15,8 +15,9 @@ A criação dos índices e indicadores está baseada em bases de dados públicas
 -   Tabelas de municípios com número de mortes violentas e campis de universidades federais;
 -   Base de dados de georreferenciamento de unidades prisionais;
 -   Tabela IPEA com ranking dos municípios do Programa Nacional de Segurança Pública com Cidadania - Pronasci;
--   Tabela da Diretoria de Alternativas Penais - Dicap -  com as informações das cidades que possuem Centros
-Integrados de Alternativas Penais - Ciap's.
+-   Tabela da Diretoria de Alternativas Penais - Dicap - com informações das cidades que possuem Centros
+Integrados de Alternativas Penais - Ciap's;
+-   Tabela da Diretoria de Alternativas Penais - Dicap - com informações das cidades que possuem Serviços Especializados de Atenção à Pessoas Egressas - Seap's.
 
 Os métodos matemáticos utilizados buscam traçar o perfil dos municípios de acordo com a importância de cada indicador/índice com ponderação e agrupamento de características semelhantes, utilizando:
 
@@ -53,19 +54,20 @@ O próximo passo é relativo à escolha dos indicadores pelos gestores do projet
 -   Indicador 9: Taxa de mortes violentas para cada 100.000 pessoas no município (peso 2);
 -   Indicador 10: Quantidade de defensores públicos na unidade federativa (peso 0.25);
 -   Indicador 11: Taxa de defensores públicos para cada 100.000 habitantes na unidade federativa (peso 0.5);
--   Indicador 12: Existência de Centro de Alternativas Penais - Ciap.
+-   Indicador 12: Existência de Centro de Alternativas Penais - Ciap (peso 1);
+-   Indicador 13: Existência de Serviços Especializados de Atenção às Pessoas Egressas - Seap (peso 1).
 
 Definição dos parâmetros de ponderação de cada indicador foram definidos a partir dos seguintes critérios:
 
 1.  Maior peso para indicadores de quantidade absoluta;
 2.  Menor peso para indicadores de quantidade relativa;
 3.  Pesos inversamente proporcionais para indicadores da quantidade de defensores públicos;
-4.  Somado um ponto ao município que contém Ciap.
+4.  Peso unitário para os indicadores de existência de Ciap's e Seap's.
 
 Dessa forma, a nota geral é dada pela seguinte equação:
 
 $$
-Nota \ geral = \dfrac{\sum_{i=1}^{12} (Indicador \ i \ \times Peso \ i) }{\sum_{i=1}^{12}Peso \ i}
+Nota \ geral = \dfrac{\sum_{i=1}^{13} (Indicador_i \ \times Peso_i) }{\sum_{i=1}^{13}Peso_i}
 $$
 
 A próxima etapa metodológica consiste na separação dos municípios em grupos (clusters) com indicadores 
@@ -302,7 +304,7 @@ formattable::formattable(
 
 ## Resumo dos Grupos
 
-A tabela abaixo traz o resumo dos principais indicadores de cada grupo. Dessa forma, fica evidente a superioridade das médias gerais para os grupos 3 e 4, respectivamente. Porém, em relação à quantidade de presos sem condenação e suas respectivas taxas, o grupo 2 supera o quarto cluster nos dois quesitos.
+A tabela abaixo traz o resumo dos principais indicadores de cada grupo. Dessa forma, fica evidente a superioridade das médias gerais para os grupos 3 e 4, respectivamente. Porém, em relação à quantidade de presos sem condenação e suas respectivas taxas, o grupo 2 supera o quarto cluster nos dois quesitos, porém com 4 vezes menos municípios.
 
 Com relação à quantidade de municípios em cada grupo, somente 16 cidades estão nos grupos mais relevantes (3 e 4), porém as mesmas possuem 28,38% de toda a população prisional brasileira, ou seja, 241.694 pessoas sob custódia. Ao voltar o olhar para a quantidade de pessoas sem condenação, vê-se que 23,5% das pessoas nessa condição se encontram custodiadas nos municípios dos grupos 3 e 4 (47.755 pessoas).
 
@@ -416,9 +418,11 @@ fig <- config(
 fig
 ```
 
-## Tabela com relação a População Prisional e a Taxa de Presos sem Condenação
+## Tabela de Indicadores e Ordenação de Prioridades
 
-A tabela abaixo lista os municípios e suas respectivas prioridades.
+A tabela abaixo lista todos os 74 municípios e suas respectivas prioridades ordenada em relação aos grupos e 
+nota geral. Nota-se que as prioridades estão ordenadas de acordo com dois critérios: 1°) ordem dos grupos prioritários;
+2°) nota geral.
 
 ```{r}
 t1 <- rel_cluster3 |> 
@@ -572,7 +576,7 @@ rel_cluster3 |>
 
 A visualização a seguir evidencia as 27 prioridades baseadas nos grupos e notas gerais. Neste modelo, algumas unidades
 federativas não constam na lista como, exemplo, Santa Catarina e Rio Grande do Sul. Por outro lado, o estado da Bahia
-possui três municípios listados (Salvador, Barreiras e Feira de Santana).
+possui três municípios listados (Salvador, Barreiras e Teixeira de Freitas).
 
 ```{r}
 
@@ -777,11 +781,15 @@ formattable::formattable(
 As definições das condições importantes ao alcance de bons resultados na aplicação de políticas públicas prisionais
 implica em uma visão sistêmica e integralizadora abrangente às diversas áreas de estudos sociais. Com esse
 pensamento em mente, este relatório cumpriu seu papel de analisar diversos indicadores e identificar os locais 
-mais propícios para implantação do projeto de Clínicas de Acesso a Direitos.
+mais propícios para implantação do projeto de Clínicas de Acesso a Direitos. Porém, esse estudo não esgotou todas 
+as possibilidades de análises e, dessa forma, não descarta a possibilidade do olhar experiente dos gestores
+do projeto. 
 
-As listas com as prioridades considera, entre outros aspectos, a população prisional e, nesse aspecto, cerca de 242.000
-pessoas (23,38%) poderão ser beneficiadas. Além disso, as pessoas custodiadas sem condenação, presentes nos municípios prioritários, somam 47.755 pessoas e representam 23,5% do total de custodiados nessa situação em todo o Brasil. 
+As listas com as prioridades considera, entre outros aspectos, a população prisional e, nesse aspecto, cerca 23,38% 
+da população prisional brasileira encontra-se nos municípios prioritários (241.694 pessoas) e poderão ser beneficiadas. 
+Além disso, as pessoas custodiadas sem condenação, presentes nas cidades dos grupos prioritários, somam 47.755 pessoas 
+e representam 23,5% do total de custodiados nessa situação em todo o Brasil. 
 
-Por fim, as cidades priotárias citadas neste trabalho abrangem cerca de 17,3% da população brasileira, 23,38% da
-população prisional e 23,5% da população prisional custodiada sem condenação.
+Por fim, as cidades priotárias dos grupos 3 e 4, citadas neste trabalho, abrangem cerca de 17,3% da população 
+brasileira, 23,38% da população prisional e 23,5% da população prisional custodiada sem condenação.
 
